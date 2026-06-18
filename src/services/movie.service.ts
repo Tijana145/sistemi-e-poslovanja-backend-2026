@@ -14,6 +14,11 @@ const client = axios.create({
 })
 
 export class MovieService {
+    static async getMovies() {
+        return await client.get('/movie')
+    }
+
+
     static async getMoviesByIds(ids: number[]) {
         return await client.request({ 
       url: 'https://movie.pequla.com/api/movie/list',
