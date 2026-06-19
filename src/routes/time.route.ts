@@ -12,8 +12,7 @@ TimeTableRoute.get('/:id', async (req, res) => {
 })
 TimeTableRoute.post('/', async (req, res) => {
     await defineRequest(res, async()=> {
-      const id = Number(req.params.id)
-      res.json( await TimeTableService.create(req.body))
+      res.json(await TimeTableService.create(req.body))
    })
 })
 TimeTableRoute.put('/:id', async (req, res) => {
