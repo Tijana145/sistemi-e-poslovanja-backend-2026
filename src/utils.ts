@@ -16,3 +16,7 @@ export async function defineRequest(res: Response, callback: Function){
         })
     }
 }
+export function generateVerificationCode(){
+    const num = Math.floor(Math.random() * 1000000)
+    return Number(String(num).padStart(6, '0'))
+    }
