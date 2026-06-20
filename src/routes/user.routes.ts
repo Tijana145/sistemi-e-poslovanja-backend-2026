@@ -15,3 +15,8 @@ UserRoute.put('/verify/:code', async(require, res)=> {
         return await UserService.verifyAccount(code)
     })
 })
+UserRoute.post('/login', async(require, res)=> {
+    await defineRequest(res, async () =>{
+        return await UserService.login(require.body)
+    })
+})

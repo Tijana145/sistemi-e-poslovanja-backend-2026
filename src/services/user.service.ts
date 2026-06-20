@@ -3,9 +3,12 @@ import { User } from "../entities/User";
 import bcrypt from 'bcrypt'
 import { MailSerivce } from "./mail.service";
 import { generateVerificationCode } from "../utils";
-import { IsNull } from "typeorm";
+import { Not, IsNull } from 'typeorm'
+import jwt from 'jsonwebtoken' 
+
 
 const repo = AppDataSource.getRepository(User)
+const JWT_SECRET = process.env.JWT_SECRET ?? ''
 
 export class UserService{
     static async createAccount(obj: any){
@@ -41,5 +44,26 @@ export class UserService{
 
         acc.verifiedAt = new Date()
         await repo.save(acc)
+    }
+    static async login(obj: any){
+        const user = await repo.findOneBy({
+            email: obj.email,
+            verifiedAt: Not(IsNull()),
+            deletedAt: IsNull()
+        })
+        if (user == null)
+            throw new Error('USER_NOT_FOUND')
+
+        if(!bcrypt.compareSync(obj.password, user.password))
+            throw new Error('USER_NOT_FOUND')
+
+        
+        return {
+            access: jwt.sign({email: user.email}, JWT_SECRET, { expiresIn: '15s'}),
+            refresh : jwt.sign({email: user.email}, JWT_SECRET, { expiresIn: '3d'}),
+            email: user.email
+        }
+
+        
     }
 }
