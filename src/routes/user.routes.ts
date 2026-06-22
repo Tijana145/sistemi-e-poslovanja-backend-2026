@@ -20,3 +20,14 @@ UserRoute.post('/login', async(require, res)=> {
         return await UserService.login(require.body)
     })
 })
+UserRoute.post('/refresh', async(require, res)=> {
+    await defineRequest(res, async () =>{
+        const auth = require.headers['authorization']
+        const token = auth && auth.split(' ')[1]
+
+        if(token == undefined)
+            throw new Error("REFRESH_TOKEN_MISSING")
+
+        return await UserService.refreshToken(token)
+    })
+})

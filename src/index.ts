@@ -10,6 +10,7 @@ import { CinemaRoute } from './routes/cinema.routes';
 import { TimeTableRoute } from './routes/time.route';
 import { MailSerivce } from './services/mail.service';
 import { UserRoute } from './routes/user.routes';
+import { UserService } from './services/user.service';
 
 
 const app = express()
@@ -17,7 +18,7 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('combined'))
 
-
+app.use(UserService.validateToken)
 app.use('/api/movie', MovieRoute)
 app.use('/api/cinema', CinemaRoute)
 app.use('/api/time-table', TimeTableRoute)
