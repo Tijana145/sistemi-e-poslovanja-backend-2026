@@ -88,7 +88,7 @@ export class UserService{
             return
         }
         const auth = req.headers['authorization']
-        const token = auth && auth.split()[1]
+        const token = auth && auth.split(' ')[1]
 
         if (token == undefined){
             res.status(401).json({
@@ -111,7 +111,7 @@ export class UserService{
         })
     }
 
-    private static async getUserByEmail(email: string){
+    static async getUserByEmail(email: string){
         const user = await repo.findOneBy({
             email: email,
             verifiedAt: Not(IsNull()),

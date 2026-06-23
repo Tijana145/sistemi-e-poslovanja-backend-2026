@@ -19,8 +19,8 @@ MovieRoute.get('/all', async (req, res) => {
 })
 
 MovieRoute.get('/:id', async (req, res) => {
-    await defineRequest(res, async()=> {
-      const id = Number(req.params.id)
-      res.json( await TimeTableService.getMovieDetails(id))
-   })
+    await defineRequest(res, async () => {
+        const id = Number(req.params.id)
+        return await TimeTableService.getMovieDetails(id)
+    })
 })

@@ -11,6 +11,7 @@ import { TimeTableRoute } from './routes/time.route';
 import { MailSerivce } from './services/mail.service';
 import { UserRoute } from './routes/user.routes';
 import { UserService } from './services/user.service';
+import { InvoiceRoute } from './routes/invoice.routes';
 
 
 const app = express()
@@ -23,6 +24,7 @@ app.use('/api/movie', MovieRoute)
 app.use('/api/cinema', CinemaRoute)
 app.use('/api/time-table', TimeTableRoute)
 app.use('/api/user', UserRoute )
+app.use('/api/invoice', InvoiceRoute)
 
 configDotenv
 const port = Number(process.env.SERVER_PORT)

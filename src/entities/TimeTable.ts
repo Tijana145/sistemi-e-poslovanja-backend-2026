@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import type { Relation } from "typeorm";
 import { InvoiceItem } from "./InvoiceItem";
 import { Cinema } from "./Cinema";
 
