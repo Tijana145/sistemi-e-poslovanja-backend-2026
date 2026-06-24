@@ -5,6 +5,7 @@ import { MailSerivce } from "./mail.service";
 import { generateVerificationCode } from "../utils";
 import { Not, IsNull } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
+import { isNullishCoalesce } from "typescript";
 
 
 
@@ -124,5 +125,35 @@ export class UserService{
         return user
 
     }   
-}
+    static async getUserProfile(email: string){
+        return await repo.findOneOrFail({
+                select: {
+                    userId: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    gender: true,
+                    invoices: {
+                        invoiceId: true,
+                        pursId: true,
+                        pursTime: true
+                    }
+                },
+                where: {
+                    email,
+                    deletedAt: IsNull(),
+                    invoices: {
+                        pursId: Not(IsNull())
+                    }
+
+                },
+                relations: {
+                    invoices: true
+                }
+
+                
+            })
+        }
+    }
+
 

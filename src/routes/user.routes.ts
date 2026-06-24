@@ -4,6 +4,13 @@ import { UserService } from "../services/user.service";
 
 export const UserRoute = Router()
 
+UserRoute.get('/profile', async(req: any, res)=> {
+    await defineRequest(res, async () =>{
+        const email = req.user.email
+        return await UserService.getUserProfile(email)
+    })
+})
+
 UserRoute.post('/signup', async(require, res)=> {
     await defineRequest(res, async () =>{
         return await UserService.createAccount(require.body)
