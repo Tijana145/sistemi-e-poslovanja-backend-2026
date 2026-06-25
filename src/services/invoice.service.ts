@@ -159,19 +159,19 @@ export class InvoiceService {
 
         await invoiceRepo.save(unapidInvoice)
     }
-    static async getInvoices(email: string){
-        const user = await UserService.getUserByEmail(email)
-        return await invoiceRepo.find({
-            select:{
-                invoiceId: true,
-                pursId: true,
-                createdAt: true
-            },
-            where: {
-                pursId: Not(IsNull()),
-                userId: user.userId
-            }
-        })
-    }
+ //   static async getInvoices(email: string){
+ //       const user = await UserService.getUserByEmail(email)
+//        return await invoiceRepo.find({
+//            select:{
+//                invoiceId: true,
+//                pursId: true,
+ //               createdAt: true
+   //         },
+  //          where: {
+ //               pursId: Not(IsNull()),
+ //               userId: user.userId
+ //          }
+//        })
+//    }
     
 }

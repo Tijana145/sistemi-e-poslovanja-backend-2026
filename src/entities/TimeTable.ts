@@ -10,6 +10,7 @@ import {
 import type { Relation } from "typeorm";
 import { InvoiceItem } from "./InvoiceItem";
 import { Cinema } from "./Cinema";
+import type { MovieModel } from "../models/movie.model";
 
 @Index("fk_time_table_cinema_idx", ["cinemaId"], {})
 @Entity("time_table", { schema: "psep_2026" })
@@ -23,6 +24,8 @@ export class TimeTable {
 
   @Column("int", { name: "movie_id", unsigned: true })
   movieId: number;
+
+  movie?: MovieModel
 
   @Column("int", { name: "cinema_id", unsigned: true })
   cinemaId: number;

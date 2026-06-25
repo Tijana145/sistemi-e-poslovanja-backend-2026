@@ -6,6 +6,7 @@ import { generateVerificationCode } from "../utils";
 import { Not, IsNull } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { isNullishCoalesce } from "typescript";
+import { InvoiceItem } from "../entities/InvoiceItem";
 
 
 
@@ -80,7 +81,7 @@ export class UserService{
             '/api/user/refresh',
             '/api/user/signup',
             '/api/user/verify',
-            '/api/movie'
+            
         ]
         if(whitelisted.find(w=>req.path.startsWith(w))){
             // putanja se nalazi u whitelisted
@@ -136,19 +137,29 @@ export class UserService{
                     invoices: {
                         invoiceId: true,
                         pursId: true,
-                        pursTime: true
+                        pursTime: true,
+                        invoiceItems: {
+                        invoiceItemId: true,
+                        pricePerItem: true,
+                        count: true
+                        }
                     }
                 },
                 where: {
                     email,
                     deletedAt: IsNull(),
-                    invoices: {
-                        pursId: Not(IsNull())
-                    }
+                  //  invoices: {
+                  //      pursId: Not(IsNull()),
+                  //      invoiceItems: {
+                  //          deletedAt: IsNull()
+                  //      }
+               //     }
 
                 },
                 relations: {
-                    invoices: true
+                    invoices: {
+                    invoiceItems: true
+                    }
                 }
 
                 

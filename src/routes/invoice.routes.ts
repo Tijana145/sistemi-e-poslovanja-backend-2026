@@ -17,12 +17,12 @@ InvoiceRoute.get('/cart', async (req:any, res) => {
         return await InvoiceService.getCartItems(email)
     })
 })
-InvoiceRoute.get('/my', async (req:any, res) => {
-    await defineRequest(res, async ()=>{
-        const email = req.user.email
-        return await InvoiceService.getInvoices(email)
-    })
-})
+//InvoiceRoute.get('/my', async (req:any, res) => {
+//    await defineRequest(res, async ()=>{
+//        const email = req.user.email
+ //       return await InvoiceService.getInvoices(email)
+ //   })
+//})
 InvoiceRoute.put('/cart/add/:id', async (req:any, res) => {
     await defineRequest(res, async ()=>{
         const email = req.user.email

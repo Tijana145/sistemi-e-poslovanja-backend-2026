@@ -9,6 +9,11 @@ CinemaRoute.get('/', async (req, res) => {
       return await CinemaService.getAll()
    })
 })
+CinemaRoute.get('/with-time-tables', async (req, res) => {
+   await defineRequest(res, async () => {
+      return await CinemaService.getAllWithTimeTables()
+   })
+})
 
 CinemaRoute.get('/:id', async (req, res) => {
    await defineRequest(res, async () => {
