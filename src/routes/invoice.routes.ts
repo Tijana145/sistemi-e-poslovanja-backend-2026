@@ -17,6 +17,13 @@ InvoiceRoute.get('/cart', async (req:any, res) => {
         return await InvoiceService.getCartItems(email)
     })
 })
+InvoiceRoute.get('/:id', async (req:any, res) => {
+    await defineRequest(res, async ()=>{
+        const email = req.user.email
+        const id = Number(req.params.id)
+        return await InvoiceService.getInvoiceDetails(id, email)
+    })
+})
 //InvoiceRoute.get('/my', async (req:any, res) => {
 //    await defineRequest(res, async ()=>{
 //        const email = req.user.email

@@ -173,5 +173,71 @@ export class InvoiceService {
  //          }
 //        })
 //    }
+
+    static async getInvoiceDetails(invoiceId: number, email:string){
+        const data = await invoiceRepo.findOne({
+            select: {
+                invoiceId: true,
+                pursId: true,
+                pursTime: true,
+                pursCounter: true,
+                createdAt: true,
+                invoiceItems:{
+                    invoiceItemId: true,
+                    pricePerItem: true,
+                    count: true,
+                    timeTable: {
+                        timeTableId: true,
+                        movieId: true,
+                        startTime: true,
+                        cinema:{
+                            cinemaId: true,
+                            name: true,
+                            address: true
+                        }
+                    }
+                }
+            },
+            where: {
+                invoiceItems: {
+                    invoiceId,
+                    deletedAt: IsNull(),
+                    timeTable: {
+                        deletedAt: IsNull(),
+                        cinema: {
+                            deletedAt: IsNull()
+                        }
+                    }
+
+                },
+                user: {
+                    deletedAt: IsNull(),
+                    email
+                }
+            },
+            relations: {
+                invoiceItems: {
+                    timeTable: {
+                        cinema: true
+
+                    }
+                }
+            }
+        })
+
+        if( data == null)
+            throw new Error('NOT_FOUND')
+
+        const ids = data.invoiceItems.map(item => item.timeTable.movieId)
+        const movies = await MovieService.getMoviesByIds(ids)
+        for (let item of data.invoiceItems){
+            for (let movie of movies.data){
+            if(item.timeTable.movieId == movie.movieId)
+                item.timeTable.movie = movie
+        }
+    }
+
+        return data
+    }
     
 }

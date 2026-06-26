@@ -165,6 +165,34 @@ export class UserService{
                 
             })
         }
+        static async updateUserDetails(payload: any, email: string){
+            const user = await this.getUserByEmail(email)
+
+            if(payload.firstName == '' || payload.lastName == '')
+                throw new Error('NAME_MUST_NOT_BE_EMPTY')
+
+            if(payload.gender != 'm' || payload.gender != 'f')
+                throw new Error('UNKNOWN_GENDER')
+
+            user.firstName = payload.firstName
+            user.lastName = payload.lastName
+            user.gender = payload.gender
+            await repo.save(user)
+
+        }
+
+        static async updateUserPassword(payload: any, email: string){
+            const user = await this.getUserByEmail(email)
+
+            if(payload.currentPassword == '' || payload.newPassword == '')
+                throw new Error('PASSWORD_MUST_NOT_BE_EMPTY')
+
+            if(!bcrypt.compareSync(payload.oldPassword, user.password))
+                throw new Error('BAD_PASSWORD')
+
+            user.password = bcrypt.hashSync(payload.newPassword, 12)
+            await repo.save(user)
+        }
     }
 
 

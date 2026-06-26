@@ -22,6 +22,18 @@ UserRoute.put('/verify/:code', async(require, res)=> {
         return await UserService.verifyAccount(code)
     })
 })
+UserRoute.put('/details', async(req: any, res)=> {
+    await defineRequest(res, async () =>{
+        const email = req.user.email
+        return await UserService.updateUserDetails(req.body, email )
+    })
+})
+UserRoute.put('/password', async(req: any, res)=> {
+    await defineRequest(res, async () =>{
+        const email = req.user.email
+        return await UserService.updateUserPassword(req.body, email )
+    })
+})
 UserRoute.post('/login', async(require, res)=> {
     await defineRequest(res, async () =>{
         return await UserService.login(require.body)
