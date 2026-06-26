@@ -39,6 +39,11 @@ export class CinemaService {
                     deletedAt: IsNull()
                 }
             },
+            order: {
+                timeTables: {
+                    startTime:'ASC'
+                }
+            },
             relations: {
                 timeTables: true
             }

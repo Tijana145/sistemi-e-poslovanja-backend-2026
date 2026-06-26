@@ -16,7 +16,7 @@ const client = axios.create({
 
 export class MovieService {
     static async getMovies() {
-        return await client.get<MovieModel[]>('/movie')
+        return await client.get<MovieModel[]>('/movie/simple')
     }
 
 
