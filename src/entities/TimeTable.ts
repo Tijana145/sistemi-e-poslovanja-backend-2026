@@ -20,41 +20,41 @@ export class TimeTable {
     name: "time_table_id",
     unsigned: true,
   })
-  timeTableId: number;
+  timeTableId!: number;
 
   @Column("int", { name: "movie_id", unsigned: true })
-  movieId: number;
+  movieId!: number;
 
   movie?: MovieModel
 
   @Column("int", { name: "cinema_id", unsigned: true })
-  cinemaId: number;
+  cinemaId!: number;
 
   @Column("time", { name: "start_time" })
-  startTime: string;
+  startTime!: string;
 
   @Column("int", { name: "price", unsigned: true })
-  price: number;
+  price!: number;
 
   @Column("datetime", {
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  createdAt!: Date;
 
   @Column("datetime", { name: "updated_at", nullable: true })
-  updatedAt: Date | null;
+  updatedAt!: Date | null;
 
   @Column("datetime", { name: "deleted_at", nullable: true })
-  deletedAt: Date | null;
+  deletedAt!: Date | null;
 
   @OneToMany(() => InvoiceItem, (invoiceItem) => invoiceItem.timeTable)
-  invoiceItems: InvoiceItem[];
+  invoiceItems!: InvoiceItem[];
 
   @ManyToOne(() => Cinema, (cinema) => cinema.timeTables, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "cinema_id", referencedColumnName: "cinemaId" }])
-  cinema: Relation<Cinema>;
+  cinema!: Relation<Cinema>;
 }

@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
 } from "typeorm";
 import { User } from "./User";
 import { InvoiceItem } from "./InvoiceItem";
@@ -14,33 +15,33 @@ import { InvoiceItem } from "./InvoiceItem";
 @Entity("invoice", { schema: "psep_2026" })
 export class Invoice {
   @PrimaryGeneratedColumn({ type: "int", name: "invoice_id", unsigned: true })
-  invoiceId: number;
+  invoiceId!: number;
 
   @Column("int", { name: "user_id", unsigned: true })
-  userId: number;
+  userId!: number;
 
   @Column("varchar", { name: "purs_id", nullable: true, length: 255 })
-  pursId: string | null;
+  pursId!: string | null;
 
   @Column("datetime", { name: "purs_time", nullable: true })
-  pursTime: Date | null;
+  pursTime!: Date | null;
 
   @Column("varchar", { name: "purs_counter", nullable: true, length: 255 })
-  pursCounter: string | null;
+  pursCounter!: string | null;
 
   @Column("datetime", {
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdAt: Date;
+  createdAt!: Date;
 
   @ManyToOne(() => User, (user) => user.invoices, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
-  user: Relation<User>;
+  user!: Relation<User>;
 
   @OneToMany(() => InvoiceItem, (invoiceItem) => invoiceItem.invoice)
-  invoiceItems: InvoiceItem[];
+  invoiceItems!: InvoiceItem[];
 }
