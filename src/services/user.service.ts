@@ -19,7 +19,7 @@ export class UserService{
             throw Error('USER_EXISTS')
 
         const hashed = await bcrypt.hashSync(obj.password, 12)
-        const code = generateVerificationCode()
+        const code = generateVerificationCode() // pri sign up korisnik dobije kod kao proveru da je to njegov mejl 
 
         MailSerivce.send(obj.email, 'Email verification code', `
              <h3>Hi ${obj.fistName}, Welcome to our app!</h3>
@@ -32,7 +32,7 @@ export class UserService{
             gender: obj.gender,
             email: obj.email,
             password: hashed,
-            emailCode : code,
+            emailCode : code, // cuvamo u bazi
             createdAt: new Date()
      })
     }
@@ -55,8 +55,9 @@ export class UserService{
             throw new Error('USER_NOT_FOUND')
 
         
+        // sluzi nam da bekend zna ko salje zahtev bez lozinke
         return {
-            access: jwt.sign({email: user.email}, JWT_SECRET, { expiresIn: '15s'}),
+            access: jwt.sign({email: user.email}, JWT_SECRET, { expiresIn: '15s'}), // kreiramo 2 tokena 
             refresh : jwt.sign({email: user.email}, JWT_SECRET, { expiresIn: '3d'}),
             email: user.email
         }
@@ -99,6 +100,7 @@ export class UserService{
             })
             return
         }
+        // proveravamo token
         jwt.verify(token, JWT_SECRET, (err: any, user: any)=>{
             if (err){
                 res.status(403).json({
@@ -107,8 +109,8 @@ export class UserService{
             })
             return
             }
-            req.user = user
-            next()
+            req.user = user // token je validan, dodaje user info na request
+            next()  // nastavlja ka ruti
 
         })
     }

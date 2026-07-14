@@ -3,8 +3,8 @@ import { CinemaService } from "../services/cinema.service";
 import { defineRequest } from "../utils";
 
 export const CinemaRoute = Router()
-
-CinemaRoute.get('/', async (req, res) => {
+// prima zahtev i prosledjuje ga servisu
+CinemaRoute.get('/', async (req, res) => { // iz fronta se salje GET zahtev, poziva se getAll, vraca se lista svih bioskopa
    await defineRequest(res, async () => {
       return await CinemaService.getAll()
    })
@@ -15,7 +15,7 @@ CinemaRoute.get('/with-time-tables', async (req, res) => {
    })
 })
 
-CinemaRoute.get('/:id', async (req, res) => {
+CinemaRoute.get('/:id', async (req, res) => { // dobijamo nazad bioskop sa konkretnim ID, konkretan koji smo trazili
    await defineRequest(res, async () => {
       const id = Number(req.params.id)
       return await CinemaService.getByIdSimple(id)

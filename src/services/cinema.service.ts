@@ -5,11 +5,11 @@ import { MovieService } from "./movie.service";
 
 const repo = AppDataSource.getRepository(Cinema)
 
-export class CinemaService {
-    static async getAll(){
-        return  await repo.find({
+export class CinemaService { // bek prima zahtev 
+    static async getAll(){ // pita bazu
+        return  await repo.find({ // repo je TypeORm repozitorijum koji prevodi u SQL
             select: {
-                cinemaId: true,
+                cinemaId: true, // vrati nam ova polja
                 name: true,
                 address: true,
             },
@@ -91,6 +91,7 @@ export class CinemaService {
             throw new Error('NOT_FOUND')
         return data
     }
+    // CRUD operacije
 
     static async create(obj: Cinema){
         const cinema = new Cinema()

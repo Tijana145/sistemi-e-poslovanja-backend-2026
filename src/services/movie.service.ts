@@ -16,7 +16,7 @@ const client = axios.create({
 
 export class MovieService {
     static async getMovies() {
-        return await client.get<MovieModel[]>('/movie/simple')
+        return await client.get<MovieModel[]>('/movie/simple')   // šalje GET na: movie.pequla.com/api/movie/simple
     }
 
 
